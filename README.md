@@ -8,6 +8,7 @@ This gamified habit tracker lets users log habits, track streaks, and earn XP/ba
 
 It’s built as a **responsive web app**, optionally connected to a **simple backend**, making habit tracking both fun and rewarding.
 
+---
 
 
 ## 📅 Capstone Day-by-Day Plan  
