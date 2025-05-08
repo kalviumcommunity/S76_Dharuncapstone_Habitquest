@@ -29,12 +29,9 @@ It’s built as a **responsive web app**, optionally connected to a **simple bac
 | **Step 10** | **Deploy the project** (using GitHub Pages, Netlify, or Vercel) and finalize documentation, screenshots, and video demo |
 
 
-
-
-
 ## ✅ Tech Stack  
 
-- **Frontend:** HTML, CSS, JavaScript  
+- **Frontend:** HTML, CSS, JavaScript
 - **Backend:** (Optional) Node.js + Express  
 - **Database:** (Optional) LocalStorage / JSON  
 - **Version Control:** Git + GitHub  
