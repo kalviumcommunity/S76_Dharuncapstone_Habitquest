@@ -12,16 +12,16 @@ router.get('/', async (req, res) => {
   }
 });
 
-// // POST a new habit
-// router.post('/', async (req, res) => {
-//   try {
-//     const { title, frequency } = req.body;
-//     const newHabit = new Habit({ title, frequency });
-//     await newHabit.save();
-//     res.status(201).json(newHabit);
-//   } catch (err) {
-//     res.status(500).json({ error: 'Failed to create habit' });
-//   }
-// });
+// POST a new habit
+router.post('/', async (req, res) => {
+  try {
+    const { title, frequency } = req.body;
+    const newHabit = new Habit({ title, frequency });
+    await newHabit.save();
+    res.status(201).json(newHabit);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to create habit' });
+  }
+});
 
 module.exports = router;
