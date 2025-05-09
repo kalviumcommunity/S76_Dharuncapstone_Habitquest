@@ -24,4 +24,28 @@ router.post('/', async (req, res) => {
   }
 });
 
+// PUT update a habit
+
+router.put('/:id', async (req, res) => {
+  try {
+    const habitId = req.params.id;
+    const { title, frequency } = req.body;
+
+    const updatedHabit = await Habit.findByIdAndUpdate(
+      habitId,
+      { title, frequency },
+      { new: true } // return the updated habit
+    );
+
+    if (!updatedHabit) {
+      return res.status(404).json({ error: 'Habit not found' });
+    }
+
+    res.json(updatedHabit);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update habit' });
+  }
+});
+
+
 module.exports = router;
