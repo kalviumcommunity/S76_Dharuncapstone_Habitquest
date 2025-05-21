@@ -15,7 +15,8 @@ connectDB();
 app.get('/', (req, res) => {
   res.json("Welcome to my app");
 });
-// Routes
+
+
 const habitRoutes = require('./routes/habitRoutes');
 app.use('/api/habits', habitRoutes);
 
