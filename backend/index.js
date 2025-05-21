@@ -12,7 +12,12 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
-// Routes
+app.get('/', (req, res) => {
+  res.json("Welcome to my app");
+});
+
+
+
 const habitRoutes = require('./routes/habitRoutes');
 app.use('/api/habits', habitRoutes);
 
