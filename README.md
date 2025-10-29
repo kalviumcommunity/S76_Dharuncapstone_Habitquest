@@ -35,5 +35,7 @@ It’s built as a **responsive web app**, optionally connected to a **simple bac
 - **Deployment:** GitHub Pages / Netlify / Vercel  
 
 
-## Deployment link
-## https://s76-dharuncapstone-habitquest.onrender.com/
+## Deployment links
+
+- Frontend (Netlify): https://69024da0657e5c20e8d7c761--verdant-cajeta-257a82.netlify.app/  
+- Backend (Render): https://s76-dharuncapstone-habitquest-z1eo.onrender.com
