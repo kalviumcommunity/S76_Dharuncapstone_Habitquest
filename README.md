@@ -37,5 +37,5 @@ It’s built as a **responsive web app**, optionally connected to a **simple bac
 
 ## Deployment links
 
-- Frontend (Netlify): https://69024da0657e5c20e8d7c761--verdant-cajeta-257a82.netlify.app/  
+- Frontend server(Netlify): https://69024da0657e5c20e8d7c761--verdant-cajeta-257a82.netlify.app/  
 - Backend (Render): https://s76-dharuncapstone-habitquest-z1eo.onrender.com
