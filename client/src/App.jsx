@@ -1,56 +1,88 @@
-import { useState } from 'react'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
+import HabitList from './components/HabitList';
+import AddHabitForm from './components/AddHabitForm';
+import UserProgress from './components/UserProgress';
+import Header from './components/Header';
 
 function App() {
-  const [habits, setHabits] = useState([])
-  const [newHabit, setNewHabit] = useState('')
+  const [habits, setHabits] = useState([]);
+  const [userXP, setUserXP] = useState(0);
+  const [userLevel, setUserLevel] = useState(1);
 
-  const addHabit = (e) => {
-    e.preventDefault()
-    if (newHabit.trim() === '') return
-    setHabits([...habits, { name: newHabit, streak: 0, completed: false }])
-    setNewHabit('')
-  }
+  // Load habits from localStorage on mount
+  useEffect(() => {
+    const savedHabits = localStorage.getItem('habits');
+    const savedXP = localStorage.getItem('userXP');
+    const savedLevel = localStorage.getItem('userLevel');
+    
+    if (savedHabits) setHabits(JSON.parse(savedHabits));
+    if (savedXP) setUserXP(Number(savedXP));
+    if (savedLevel) setUserLevel(Number(savedLevel));
+  }, []);
 
-  const toggleComplete = (idx) => {
-    setHabits(habits.map((h, i) =>
-      i === idx
-        ? { ...h, completed: !h.completed, streak: h.completed ? h.streak : h.streak + 1 }
-        : h
-    ))
-  }
+  // Save to localStorage whenever habits change
+  useEffect(() => {
+    localStorage.setItem('habits', JSON.stringify(habits));
+    localStorage.setItem('userXP', userXP.toString());
+    localStorage.setItem('userLevel', userLevel.toString());
+  }, [habits, userXP, userLevel]);
 
-  const deleteHabit = (idx) => {
-    setHabits(habits.filter((_, i) => i !== idx))
-  }
+  const addHabit = (habit) => {
+    const newHabit = {
+      id: Date.now(),
+      ...habit,
+      streak: 0,
+      completed: false,
+      completedDates: []
+    };
+    setHabits([...habits, newHabit]);
+  };
+
+  const deleteHabit = (id) => {
+    setHabits(habits.filter(habit => habit.id !== id));
+  };
+
+  const completeHabit = (id) => {
+    const today = new Date().toDateString();
+    setHabits(habits.map(habit => {
+      if (habit.id === id && !habit.completedDates.includes(today)) {
+        const xpGain = 10;
+        setUserXP(prevXP => {
+          const newXP = prevXP + xpGain;
+          // Level up every 100 XP
+          if (newXP >= userLevel * 100) {
+            setUserLevel(prevLevel => prevLevel + 1);
+          }
+          return newXP;
+        });
+        
+        return {
+          ...habit,
+          streak: habit.streak + 1,
+          completed: true,
+          completedDates: [...habit.completedDates, today]
+        };
+      }
+      return habit;
+    }));
+  };
 
   return (
-    <div className="container">
-      <h1>🏆 Habit Quest</h1>
-      <p>Gamify your habits! Add habits, track streaks, and level up your life.</p>
-      <form onSubmit={addHabit} className="habit-form">
-        <input
-          type="text"
-          placeholder="Add a new habit..."
-          value={newHabit}
-          onChange={e => setNewHabit(e.target.value)}
+    <div className="App">
+      <Header />
+      <div className="container">
+        <UserProgress xp={userXP} level={userLevel} />
+        <AddHabitForm onAddHabit={addHabit} />
+        <HabitList 
+          habits={habits} 
+          onDelete={deleteHabit} 
+          onComplete={completeHabit} 
         />
-        <button type="submit">Add Habit</button>
-      </form>
-      <ul className="habit-list">
-        {habits.length === 0 && <li>No habits yet. Start your quest!</li>}
-        {habits.map((habit, idx) => (
-          <li key={idx} className={habit.completed ? 'completed' : ''}>
-            <span onClick={() => toggleComplete(idx)}>
-              {habit.completed ? '✅' : '⬜'} {habit.name} (Streak: {habit.streak})
-            </span>
-            <button onClick={() => deleteHabit(idx)}>🗑️</button>
-          </li>
-        ))}
-      </ul>
+      </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
 
